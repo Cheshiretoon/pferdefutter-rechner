@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pferdefutter-Rechner</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #fdf6ed;
+      padding: 30px;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #fff7f0;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h1 {
+      background: #e07a3f;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 24px;
+    }
+    .row {
+      margin: 15px 0;
+      display: flex;
+      justify-content: space-between;
+    }
+    label {
+      flex: 1;
+      font-weight: bold;
+      text-align: left;
+    }
+    input, select {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .result {
+      background: #d4f4dd;
+      padding: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pferdefutter-Rechner</h1>
+
+    <div class="row">
+      <label for="gewicht">Gewicht (kg):</label>
+      <input type="number" id="gewicht" value="600" />
+    </div>
+
+    <div class="row">
+      <label for="arbeitslevel">Arbeitslevel:</label>
+      <select id="arbeitslevel">
+        <option value="leicht">leicht</option>
+        <option value="mittel" selected>mittel</option>
+        <option value="schwer">schwer</option>
+      </select>
+    </div>
+
+    <div class="result" id="ausgabe">Ergebnis: 12 kg</div>
+  </div>
+
+  <script>
+    const gewichtInput = document.getElementById("gewicht");
+    const arbeitslevelInput = document.getElementById("arbeitslevel");
+    const ausgabe = document.getElementById("ausgabe");
+
+    function berechne() {
+      const gewicht = parseFloat(gewichtInput.value);
+      const level = arbeitslevelInput.value;
+      let faktor = 0;
+
+      if (level === "leicht") faktor = 1.5;
+      else if (level === "mittel") faktor = 2;
+      else if (level === "schwer") faktor = 3;
+      else ausgabe.textContent = "Ungültiger Arbeitslevel";
+
+      if (!isNaN(gewicht) && faktor > 0) {
+        const raufutter = (gewicht / 100 * faktor).toFixed(1);
+        ausgabe.textContent = `Ergebnis: ${raufutter} kg`;
+      } else {
+        ausgabe.textContent = "Bitte gültige Werte eingeben";
+      }
+    }
+
+    gewichtInput.addEventListener("input", berechne);
+    arbeitslevelInput.addEventListener("change", berechne);
+    berechne(); // initialer Aufruf
+  </script>
+</body>
+</html>
